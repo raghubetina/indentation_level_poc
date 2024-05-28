@@ -1,0 +1,14 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Run units</h1>
+
+<div id="run_units">
+  <% @run_units.each do |run_unit| %>
+    <%= render run_unit %>
+    <p>
+      <%= link_to "Show this run unit", run_unit %>
+    </p>
+  <% end %>
+</div>
+
+<%= link_to "New run unit", new_run_unit_path %>
