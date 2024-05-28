@@ -14,8 +14,13 @@
   <% @run.run_units.order(:position).each do |run_unit| %>
     <div style="margin-left: <%= run_unit.indentation_level * 5 %>px">
       <div>
-        <%= "•" * run_unit.indentation_level %>
-        <%= run_unit.indentation_level %>: <%= run_unit.title %>
+        <div>
+          <%= "•" * run_unit.indentation_level %> <%= run_unit.id %>: <%= run_unit.title %>
+
+          | 
+
+          Descendants: <%= run_unit.descendants.map(&:id) %>
+        </div>
       </div>
     </div>
   <% end %>
