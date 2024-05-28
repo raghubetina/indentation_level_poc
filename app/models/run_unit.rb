@@ -49,4 +49,34 @@ class RunUnit < ApplicationRecord
 
     result
   end
+
+  # Pseudocode for methods we may not need, mostly just to define terminology:
+
+  # def siblings
+  #   run.run_units.where(indentation_level:).order(:position)
+  # end
+
+  # def successors
+  #   run.run_units.where(position: position...).order(:position)
+  # end
+
+  # def predecessors
+  #   run.run_units.where(position: ...position).order(:position)
+  # end
+
+  # def parent
+  #   run.run_units.where(indentation_level: indentation_level - 1).order(position: :desc).first
+  # end
+
+  # def ancestors
+  #   next_ancestor = parent
+  #   result = []
+
+  #   while next_ancestor
+  #     result << next_ancestor
+  #     next_ancestor = next_ancestor.parent
+  #   end
+
+  #   result
+  # end
 end
