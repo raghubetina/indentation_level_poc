@@ -1,5 +1,5 @@
 class RunUnitsController < ApplicationController
-  before_action :set_run_unit, only: %i[ show edit update destroy ]
+  before_action :set_run_unit, only: %i[show edit update destroy]
 
   # GET /run_units or /run_units.json
   def index
@@ -58,13 +58,14 @@ class RunUnitsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_run_unit
-      @run_unit = RunUnit.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def run_unit_params
-      params.require(:run_unit).permit(:title, :description, :indentation_level, :run_id)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_run_unit
+    @run_unit = RunUnit.find(params[:id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  def run_unit_params
+    params.require(:run_unit).permit(:title, :description, :indentation_level, :run_id)
+  end
 end

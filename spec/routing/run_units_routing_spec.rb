@@ -18,7 +18,6 @@ RSpec.describe RunUnitsController, type: :routing do
       expect(get: "/run_units/1/edit").to route_to("run_units#edit", id: "1")
     end
 
-
     it "routes to #create" do
       expect(post: "/run_units").to route_to("run_units#create")
     end

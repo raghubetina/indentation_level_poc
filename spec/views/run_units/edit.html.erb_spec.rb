@@ -1,4 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe "run_units/edit", type: :view do
   let(:run_unit) {
@@ -18,7 +18,6 @@ RSpec.describe "run_units/edit", type: :view do
     render
 
     assert_select "form[action=?][method=?]", run_unit_path(run_unit), "post" do
-
       assert_select "input[name=?]", "run_unit[title]"
 
       assert_select "input[name=?]", "run_unit[description]"

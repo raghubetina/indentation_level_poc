@@ -1,5 +1,5 @@
 class RunsController < ApplicationController
-  before_action :set_run, only: %i[ show edit update destroy ]
+  before_action :set_run, only: %i[show edit update destroy]
 
   # GET /runs or /runs.json
   def index
@@ -58,13 +58,14 @@ class RunsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_run
-      @run = Run.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def run_params
-      params.require(:run).permit(:title, :description)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_run
+    @run = Run.find(params[:id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  def run_params
+    params.require(:run).permit(:title, :description)
+  end
 end
