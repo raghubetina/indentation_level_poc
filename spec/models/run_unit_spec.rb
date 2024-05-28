@@ -5,6 +5,7 @@
 #  id                :bigint           not null, primary key
 #  description       :string
 #  indentation_level :integer          default(0)
+#  position          :integer          not null
 #  title             :string
 #  created_at        :datetime         not null
 #  updated_at        :datetime         not null
@@ -12,7 +13,8 @@
 #
 # Indexes
 #
-#  index_run_units_on_run_id  (run_id)
+#  index_run_units_on_run_id               (run_id)
+#  index_run_units_on_run_id_and_position  (run_id,position) UNIQUE
 #
 # Foreign Keys
 #

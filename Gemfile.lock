@@ -183,6 +183,9 @@ GEM
       ast (~> 2.4.1)
       racc
     pg (1.5.6)
+    positioning (0.2.2)
+      activerecord (>= 6.1)
+      activesupport (>= 6.1)
     pry (0.14.2)
       coderay (~> 1.1)
       method_source (~> 1.0)
@@ -382,6 +385,7 @@ DEPENDENCIES
   importmap-rails
   jbuilder
   pg (~> 1.1)
+  positioning
   pry-rails
   puma (>= 5.0)
   rack-timeout
