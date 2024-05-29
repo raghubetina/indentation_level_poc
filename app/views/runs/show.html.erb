@@ -8,3 +8,20 @@
 
   <%= button_to "Destroy this run", @run, method: :delete %>
 </div>
+
+<h2>Run Units</h2>
+<div>
+  <% @run.run_units.order(:position).each do |run_unit| %>
+    <div style="margin-left: <%= run_unit.indentation_level * 5 %>px">
+      <div>
+        <div>
+          <%= "•" * run_unit.indentation_level %> <%= run_unit.id %>: <%= run_unit.title %>
+
+          | 
+
+          Descendants: <%= run_unit.descendants.map(&:id) %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>
