@@ -88,6 +88,15 @@ class RunUnit < ApplicationRecord
     predecessor && indentation_level - predecessor.indentation_level < 1
   end
 
+  def indent!
+    to_indent = descendants.prepend(self)
+
+    to_indent.each do |descendant|
+      descendant.indentation_level += 1
+      descendant.save
+    end
+  end
+
   # Pseudocode for methods we may not need, mostly just to define terminology:
 
   # def siblings
