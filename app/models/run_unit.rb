@@ -30,7 +30,7 @@ class RunUnit < ApplicationRecord
   belongs_to :run
 
   def not_too_deep
-    if position && indentation_level > predecessor.indentation_level + 1
+    if position && indentation_level > predecessor.try(:indentation_level).to_i + 1
       errors.add(:indentation_level, "must not be more than one level deeper than its predecessor")
     end
   end
