@@ -16,28 +16,20 @@
       </div>
 
       <div class="col-md-6">
-      <% else %>
-        <div style="margin-left: <%= (run_unit.indentation_level - 1) * 2 %>rem">
-          <div class="d-flex gap-2">
-            <div class="me-auto">
-              <%= render run_unit %>
-            </div>
-
-            <div>
-              <span class="badge rounded-pill fw-regular text-body-secondary bg-body-tertiary border border-dark-subtle">
-                <i class="fa-solid fa-lock"></i>
-              </span>
-            </div>
-          </div>
-        </div>
-        
-        <% unless run_unit.progenitor.last_descendant == run_unit %>
-        <hr>
-        <% end %>
-        
+      
+      <% if run_unit.descendants.none? %>
+        <%= render "indented_run_unit", run_unit: run_unit %>
       <% end %>
+  <% else %>
+        <%= render "indented_run_unit", run_unit: run_unit %>
 
-      <% if run_unit.successor.try(:indentation_level).to_i == 0 %>
+    <% unless run_unit.progenitor.last_descendant == run_unit %>
+        <hr>
+    <% end %>
+
+  <% end %>
+
+  <% if run_unit.successor.try(:indentation_level).to_i == 0 %>
       </div>
     </div>
 

@@ -1,0 +1,13 @@
+<div style="margin-left: <%= [(run_unit.indentation_level - 1), 0 * 2, 0].max %>rem">
+  <div class="d-flex gap-2">
+    <div class="me-auto">
+      <%= render run_unit %>
+    </div>
+
+    <div>
+      <span class="badge rounded-pill fw-regular text-body-secondary bg-body-tertiary border border-dark-subtle">
+        <i class="fa-solid fa-lock"></i>
+      </span>
+    </div>
+  </div>
+</div>
