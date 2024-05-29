@@ -21,7 +21,7 @@
 #  fk_rails_...  (run_id => runs.id)
 #
 class RunUnit < ApplicationRecord
-  validates :indentation_level, numericality: { greater_than_or_equal_to: 0 }
+  validates :indentation_level, numericality: {greater_than_or_equal_to: 0}
 
   validate :not_too_deep
 
