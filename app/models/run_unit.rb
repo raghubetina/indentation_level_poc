@@ -106,6 +106,34 @@ class RunUnit < ApplicationRecord
     end
   end
 
+  def prior_siblings
+    run
+      .run_units
+      .where(indentation_level:)
+      .where(position: ...position)
+      .order(:position)
+  end
+
+  def last_prior_sibling
+    prior_siblings.last
+  end
+
+  def can_move_up?
+    position != 1
+  end
+
+  def move_up!
+    self.update position: {before: last_prior_sibling}
+  end
+
+  def can_move_down?
+    run.run_units.order(:position).last != self
+  end
+
+  def move_down!
+
+  end
+
   # Pseudocode for methods we may not need, mostly just to define terminology:
 
   # def siblings

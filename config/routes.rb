@@ -5,6 +5,8 @@ Rails.application.routes.draw do
     member do
       patch "indent", to: "run_units#indent"
       patch "outdent", to: "run_units#outdent"
+      patch "move_up", to: "run_units#move_up"
+      patch "move_down", to: "run_units#move_down"
     end
   end
   resources :runs
