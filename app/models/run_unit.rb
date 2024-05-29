@@ -87,9 +87,9 @@ class RunUnit < ApplicationRecord
   def outdent!
     to_outdent = descendants.prepend(self)
 
-    to_outdent.each do |descendant|
-      descendant.indentation_level -= 1
-      descendant.save
+    to_outdent.each do |run_unit|
+      run_unit.indentation_level -= 1
+      run_unit.save
     end
   end
 
@@ -100,9 +100,9 @@ class RunUnit < ApplicationRecord
   def indent!
     to_indent = descendants.prepend(self)
 
-    to_indent.each do |descendant|
-      descendant.indentation_level += 1
-      descendant.save
+    to_indent.each do |run_unit|
+      run_unit.indentation_level += 1
+      run_unit.save
     end
   end
 
@@ -131,10 +131,18 @@ class RunUnit < ApplicationRecord
   end
 
   def move_up!
-    if last_prior_sibling
-      self.update position: {before: last_prior_sibling}
-    else
-      self.update position: {before: predecessor}
+    if can_move_up?
+      to_move_up = descendants
+
+      update(position: {before: last_prior_sibling})
+
+      anchor = self
+
+      to_move_up.each do |run_unit|
+        run_unit.update(position: {after: anchor})
+
+        anchor = run_unit
+      end
     end
   end
 
