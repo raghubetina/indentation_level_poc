@@ -59,9 +59,9 @@ class RunUnit < ApplicationRecord
   end
 
   def parent
-    predecessors.
-      where(indentation_level: indentation_level - 1).
-      last
+    predecessors
+      .where(indentation_level: indentation_level - 1)
+      .last
   end
 
   def ancestors
