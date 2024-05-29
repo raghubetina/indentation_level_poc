@@ -1,25 +1,50 @@
-<%= render @run %>
-
-<div>
-  <%= link_to "Edit this run", edit_run_path(@run) %> |
-  <%= link_to "Back to runs", runs_path %>
-
-  <%= button_to "Destroy this run", @run, method: :delete %>
+<div class="row">
+  <div class="col-md-6">
+    <%= render @run %>
+  </div>
 </div>
 
-<h2>Run Units</h2>
-<div>
-  <% @run.run_units.order(:position).each do |run_unit| %>
-    <div style="margin-left: <%= run_unit.indentation_level * 5 %>px">
-      <div>
-        <div>
-          <%= "•" * run_unit.indentation_level %> <%= run_unit.id %>: <%= run_unit.title %>
+<div class="row">
+  <div class="col-md-12">
+    <h2>Course Contents</h2>
+  </div>
+</div>
 
-          | 
+<% @run.run_units.order(:position).each do |run_unit| %>
+  <% if run_unit.indentation_level == 0 %>
+    <div class="row">
+      <div class="col-md-6">
+        <h3><%= render run_unit %></h3>
 
-          Descendants: <%= run_unit.descendants.map(&:id) %>
+        <p><%= run_unit.description %></p>
+      </div>
+
+      <div class="col-md-6">
+      <% else %>
+        <div style="margin-left: <%= (run_unit.indentation_level - 1) * 20 %>px" class="mt-2">
+          <div class="d-flex">
+            <div class="me-auto">
+              <%= render run_unit %>
+            </div>
+
+            <div>
+              <span class="badge rounded-pill fw-regular text-body-secondary bg-body-tertiary border border-dark-subtle">
+                <i class="fa-solid fa-lock"></i>
+              </span>
+            </div>
+          </div>
         </div>
+        
+        <% unless run_unit.progenitor.last_descendant == run_unit %>
+        <hr>
+        <% end %>
+        
+      <% end %>
+
+      <% if run_unit.successor.try(:indentation_level).to_i == 0 %>
       </div>
     </div>
+
+    <hr>
   <% end %>
-</div>
+<% end %>
