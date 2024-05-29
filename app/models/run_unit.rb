@@ -84,6 +84,15 @@ class RunUnit < ApplicationRecord
     indentation_level > 0 || descendants.any?
   end
 
+  def outdent!
+    to_outdent = descendants.prepend(self)
+
+    to_outdent.each do |descendant|
+      descendant.indentation_level -= 1
+      descendant.save
+    end
+  end
+
   def can_indent?
     predecessor && indentation_level - predecessor.indentation_level < 1
   end

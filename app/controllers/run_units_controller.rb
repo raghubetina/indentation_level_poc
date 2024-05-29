@@ -59,17 +59,9 @@ class RunUnitsController < ApplicationController
 
   def outdent
     if @run_unit.can_outdent?
-      descendants = @run_unit.descendants
+      @run_unit.outdent!
 
-      @run_unit.indentation_level -= 1
-      @run_unit.save
-
-      descendants.each do |descendant|
-        descendant.indentation_level += 1
-        descendant.save
-      end
-
-      redirect_to @run_unit.run, notice: "Indented '#{@run_unit.title}'."
+      redirect_to @run_unit.run, notice: "Outdented '#{@run_unit.title}'."
     else
       redirect_to @run_unit.run, alert: "Can't indent that."
     end
