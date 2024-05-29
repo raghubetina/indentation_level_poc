@@ -21,7 +21,7 @@
 #  fk_rails_...  (run_id => runs.id)
 #
 class RunUnit < ApplicationRecord
-  validates :indentation_level, numericality: { greater_than_or_equal_to: 0 }
+  validates :indentation_level, numericality: {greater_than_or_equal_to: 0}
 
   validate :not_too_deep
 
@@ -30,7 +30,7 @@ class RunUnit < ApplicationRecord
   belongs_to :run
 
   def not_too_deep
-    if indentation_level > predecessor.indentation_level + 1
+    if position && indentation_level > predecessor.indentation_level + 1
       errors.add(:indentation_level, "must not be more than one level deeper than its predecessor")
     end
   end
@@ -50,6 +50,36 @@ class RunUnit < ApplicationRecord
     result
   end
 
+  def last_descendant
+    descendants.last
+  end
+
+  def predecessors
+    run.run_units.where(position: ...position).order(:position)
+  end
+
+  def parent
+    predecessors
+      .where(indentation_level: indentation_level - 1)
+      .last
+  end
+
+  def ancestors
+    next_ancestor = parent
+    result = []
+
+    while next_ancestor
+      result << next_ancestor
+      next_ancestor = next_ancestor.parent
+    end
+
+    result
+  end
+
+  def progenitor
+    ancestors.last
+  end
+
   # Pseudocode for methods we may not need, mostly just to define terminology:
 
   # def siblings
@@ -58,25 +88,5 @@ class RunUnit < ApplicationRecord
 
   # def successors
   #   run.run_units.where(position: position...).order(:position)
-  # end
-
-  # def predecessors
-  #   run.run_units.where(position: ...position).order(:position)
-  # end
-
-  # def parent
-  #   run.run_units.where(indentation_level: indentation_level - 1).order(position: :desc).first
-  # end
-
-  # def ancestors
-  #   next_ancestor = parent
-  #   result = []
-
-  #   while next_ancestor
-  #     result << next_ancestor
-  #     next_ancestor = next_ancestor.parent
-  #   end
-
-  #   result
   # end
 end

@@ -6,13 +6,13 @@ namespace :dev do
     5.times do
       run = Run.create(
         title: Faker::Educator.course_name,
-        description: Faker::Lorem.paragraph(sentence_count: 3)
+        description: Faker::Lorem.paragraphs(number: 3).join("\n\n")
       )
 
       1.upto(100) do |i|
         run_unit = run.run_units.create(
           title: "#{i.ordinalize} unit",
-          description: Faker::Lorem.paragraph(sentence_count: 3)
+          description: Faker::Lorem.paragraphs(number: 3).join("\n\n")
         )
 
         next if i == 1

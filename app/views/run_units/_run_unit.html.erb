@@ -1,22 +1,17 @@
 <div id="<%= dom_id run_unit %>">
-  <p>
-    <strong>Title:</strong>
-    <%= run_unit.title %>
-  </p>
-
-  <p>
-    <strong>Description:</strong>
-    <%= run_unit.description %>
-  </p>
-
-  <p>
-    <strong>Indentation level:</strong>
-    <%= run_unit.indentation_level %>
-  </p>
-
-  <p>
-    <strong>Run:</strong>
-    <%= run_unit.run_id %>
-  </p>
-
+  ID: <%= run_unit.id %>
+  |
+  Position:  <%= run_unit.position %>
+  |
+  Title: <%= run_unit.title %>
+  |
+  Parent: <%= run_unit.parent.try(:id) %>
+  |
+  Ancestors: <%= run_unit.ancestors.map(&:id) %>
+  |
+  Progenitor: <%= run_unit.progenitor.try(:id) %>
+  |
+  Descendants: <%= run_unit.descendants.map(&:id) %>
+  |
+  Last descendant: <%= run_unit.last_descendant.try(:id) %>
 </div>
