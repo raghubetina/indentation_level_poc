@@ -1,18 +1,14 @@
-<div class="row">
-  <div class="col-md-6">
+<div class="row my-5">
+  <div class="col-md-8">
     <%= render @run %>
   </div>
 </div>
 
-<div class="row">
-  <div class="col-md-12">
-    <h2>Course Contents</h2>
-  </div>
-</div>
+<hr>
 
 <% @run.run_units.order(:position).each do |run_unit| %>
   <% if run_unit.indentation_level == 0 %>
-    <div class="row">
+    <div class="row mt-5 mb-4">
       <div class="col-md-6">
         <h3><%= render run_unit %></h3>
 
@@ -21,8 +17,8 @@
 
       <div class="col-md-6">
       <% else %>
-        <div style="margin-left: <%= (run_unit.indentation_level - 1) * 20 %>px" class="mt-2">
-          <div class="d-flex">
+        <div style="margin-left: <%= (run_unit.indentation_level - 1) * 2 %>rem">
+          <div class="d-flex gap-2">
             <div class="me-auto">
               <%= render run_unit %>
             </div>
