@@ -1,5 +1,5 @@
 class RunUnitsController < ApplicationController
-  before_action :set_run_unit, only: %i[show edit update destroy]
+  before_action :set_run_unit, only: %i[show edit update destroy indent outdent]
 
   # GET /run_units or /run_units.json
   def index
@@ -44,6 +44,26 @@ class RunUnitsController < ApplicationController
         format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @run_unit.errors, status: :unprocessable_entity }
       end
+    end
+  end
+
+  def indent
+    if @run_unit.can_indent?
+      @run_unit.indent!
+
+      redirect_to @run_unit.run, notice: "Indented '#{@run_unit.title}'."
+    else
+      redirect_to @run_unit.run, alert: "Can't indent that."
+    end
+  end
+
+  def outdent
+    if @run_unit.can_outdent?
+      @run_unit.outdent!
+
+      redirect_to @run_unit.run, notice: "Outdented '#{@run_unit.title}'."
+    else
+      redirect_to @run_unit.run, alert: "Can't indent that."
     end
   end
 

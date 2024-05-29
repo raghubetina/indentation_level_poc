@@ -1,7 +1,9 @@
-<div id="<%= dom_id run_unit %>">
+<div id="<%= dom_id(run_unit) %>">
   ID: <%= run_unit.id %>
   |
   Position:  <%= run_unit.position %>
+  |
+  IL:  <%= run_unit.indentation_level %>
   |
   Title: <%= run_unit.title %>
   |
@@ -14,4 +16,22 @@
   Descendants: <%= run_unit.descendants.map(&:id) %>
   |
   Last descendant: <%= run_unit.last_descendant.try(:id) %>
+
+  <div class="d-flex gap-2 mt-2">
+    <div id="<%= dom_id(run_unit, :outdent) %>">
+      <%= form_with(model: run_unit, url: outdent_run_unit_path(run_unit), method: :patch) do |f| %>
+        <%= button_tag type: "submit", disabled: !run_unit.can_outdent?, class: "btn btn-outline-#{run_unit.can_outdent? ? "primary" : "secondary"}" do %>
+          <i class="fa-solid fa-outdent"></i>
+        <% end %>
+      <% end %>
+    </div>
+
+    <div id="<%= dom_id(run_unit, :indent) %>">
+      <%= form_with(model: run_unit, url: indent_run_unit_path(run_unit), method: :patch) do |form| %>
+        <%= button_tag type: "submit", disabled: !run_unit.can_indent?, class: "btn btn-outline-#{run_unit.can_indent? ? "primary" : "secondary"}" do %>
+          <i class="fa-solid fa-indent"></i>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
 </div>
