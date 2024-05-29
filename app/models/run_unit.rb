@@ -107,11 +107,19 @@ class RunUnit < ApplicationRecord
   end
 
   def prior_siblings
-    run
-      .run_units
-      .where(indentation_level:)
-      .where(position: ...position)
-      .order(:position)
+    if indentation_level == 0
+      run
+        .run_units
+        .where(indentation_level:)
+        .where(position: ...position)
+        .order(:position)
+    else
+      run
+        .run_units
+        .where(indentation_level:)
+        .where(position: parent.position...position)
+        .order(:position)
+    end
   end
 
   def last_prior_sibling
@@ -119,11 +127,15 @@ class RunUnit < ApplicationRecord
   end
 
   def can_move_up?
-    position != 1
+    last_prior_sibling
   end
 
   def move_up!
-    self.update position: {before: last_prior_sibling}
+    if last_prior_sibling
+      self.update position: {before: last_prior_sibling}
+    else
+      self.update position: {before: predecessor}
+    end
   end
 
   def can_move_down?
