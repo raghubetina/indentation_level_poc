@@ -16,6 +16,10 @@
   Descendants: <%= run_unit.descendants.map(&:id) %>
   |
   Last descendant: <%= run_unit.last_descendant.try(:id) %>
+  |
+  Prior siblings: <%= run_unit.prior_siblings.map(&:id) %>
+  |
+  Last prior sibling: <%= run_unit.last_prior_sibling.try(:id) %>
 
   <div class="d-flex gap-2 mt-2">
     <div id="<%= dom_id(run_unit, :outdent) %>">
@@ -30,6 +34,14 @@
       <%= form_with(model: run_unit, url: indent_run_unit_path(run_unit), method: :patch) do |form| %>
         <%= button_tag type: "submit", disabled: !run_unit.can_indent?, class: "btn btn-outline-#{run_unit.can_indent? ? "primary" : "secondary"}" do %>
           <i class="fa-solid fa-indent"></i>
+        <% end %>
+      <% end %>
+    </div>
+
+    <div id="<%= dom_id(run_unit, :move_up) %>">
+      <%= form_with(model: run_unit, url: move_up_run_unit_path(run_unit), method: :patch) do |form| %>
+        <%= button_tag type: "submit", disabled: !run_unit.can_move_up?, class: "btn btn-outline-#{run_unit.can_move_up? ? "primary" : "secondary"}" do %>
+          <i class="fa-solid fa-up-long"></i>
         <% end %>
       <% end %>
     </div>
