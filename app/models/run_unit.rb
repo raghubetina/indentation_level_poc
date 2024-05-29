@@ -80,6 +80,14 @@ class RunUnit < ApplicationRecord
     ancestors.last
   end
 
+  def can_outdent?
+    indentation_level > 0 || descendants.any?
+  end
+
+  def can_indent?
+    predecessor && indentation_level - predecessor.indentation_level < 1
+  end
+
   # Pseudocode for methods we may not need, mostly just to define terminology:
 
   # def siblings
