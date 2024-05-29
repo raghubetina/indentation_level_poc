@@ -151,7 +151,6 @@ class RunUnit < ApplicationRecord
   end
 
   def move_down!
-
   end
 
   # Pseudocode for methods we may not need, mostly just to define terminology:
