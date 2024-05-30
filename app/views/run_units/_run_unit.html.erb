@@ -1,37 +1,55 @@
+<% run_unit_submission = run_unit.run_unit_submissions.find_by(user: current_user) %>
 <div id="<%= dom_id(run_unit) %>">
   <div class="d-flex gap-2">
     <div class="me-auto">
-      ID: <%= run_unit.id %>
-      |
-      Position:  <%= run_unit.position %>
-      |
-      Indentation:  <%= run_unit.indentation_level %>
-      |
-      Title: <strong><%= run_unit.title %></strong>
-      |
-      Weight: <%= run_unit.weight %>
-      |
-      Points: <%= number_to_percentage(run_unit.points, precision: 1) %>
-      |
-      Parent: <%= run_unit.parent.try(:id) %>
-      |
-      Ancestors: <%= run_unit.ancestors.map(&:id) %>
-      |
-      Progenitor: <%= run_unit.progenitor.try(:id) %>
-      |
-      Descendants: <%= run_unit.descendants.map(&:id) %>
-      |
-      Last descendant: <%= run_unit.last_descendant.try(:id) %>
-      |
-      Prior siblings: <%= run_unit.prior_siblings.map(&:id) %>
-      |
-      Last prior sibling: <%= run_unit.last_prior_sibling.try(:id) %>
+      <h3 class="h6"><%= run_unit.title %> (<%= run_unit.id %>)</h3>
+      <details>
+        <summary>Details</summary>
+        ID: <%= run_unit.id %>
+        |
+        Position:  <%= run_unit.position %>
+        |
+        Indentation:  <%= run_unit.indentation_level %>
+        |
+        Title: <strong><%= run_unit.title %></strong>
+        |
+        Weight: <%= run_unit.weight %>
+        |
+        Points: <%= number_to_percentage(run_unit.points, precision: 1) %>
+        |
+        Parent: <%= run_unit.parent.try(:id) %>
+        |
+        Ancestors: <%= run_unit.ancestors.map(&:id) %>
+        |
+        Progenitor: <%= run_unit.progenitor.try(:id) %>
+        |
+        Descendants: <%= run_unit.descendants.map(&:id) %>
+        |
+        Last descendant: <%= run_unit.last_descendant.try(:id) %>
+        |
+        Prior siblings: <%= run_unit.prior_siblings.map(&:id) %>
+        |
+        Last prior sibling: <%= run_unit.last_prior_sibling.try(:id) %>
+      </details>
+
     </div>
 
     <div>
-      <span class="badge rounded-pill fw-regular text-body-secondary bg-body-tertiary border border-dark-subtle fs-6">
-        <i class="fa-solid fa-lock"></i>
-      </span>
+      Passing progress: <%= run_unit.passing_progress %>
+      |
+      Progress: <%= run_unit_submission.try(:progress).to_f %>
+      |
+      Passing?: <%= !!run_unit_submission.try(:passing?) %>
+
+      <% if !run_unit_submission.try(:passing?) %>
+        <span class="badge rounded-pill fw-regular text-body-secondary bg-body-tertiary border border-dark-subtle fs-6">
+          <i class="fa-solid fa-ban"></i>
+        </span>
+      <% else %>
+              <span class="badge rounded-pill fw-regular text-body-secondary bg-body-tertiary border border-dark-subtle fs-6">
+          <i class="fa-solid fa-check"></i>
+        </span>
+      <% end %>
     </div>
   </div>
 

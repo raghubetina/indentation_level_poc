@@ -47,7 +47,7 @@ namespace :dev do
             run:,
             user:,
             run_submission:,
-            progress: rand(0.7..1.0).round(1)
+            progress: rand(0.2..1.0).round(1)
           )
 
           unless run_unit_submission.passing?
