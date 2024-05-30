@@ -11,7 +11,7 @@
       |
       Weight: <%= run_unit.weight %>
       |
-      Points: <%= run_unit.points.round(1) %>
+      Points: <%= number_to_percentage(run_unit.points, precision: 1) %>
       |
       Parent: <%= run_unit.parent.try(:id) %>
       |
