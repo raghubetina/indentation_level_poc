@@ -1,0 +1,10 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @run_submission %>
+
+<div>
+  <%= link_to "Edit this run submission", edit_run_submission_path(@run_submission) %> |
+  <%= link_to "Back to run submissions", run_submissions_path %>
+
+  <%= button_to "Destroy this run submission", @run_submission, method: :delete %>
+</div>

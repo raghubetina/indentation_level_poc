@@ -8,6 +8,9 @@ class RunsController < ApplicationController
 
   # GET /runs/1 or /runs/1.json
   def show
+    unless @run.users.include?(current_user)
+      @run.enroll_user(current_user)
+    end
   end
 
   # GET /runs/new
