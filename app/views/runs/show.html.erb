@@ -1,10 +1,39 @@
-<p style="color: green"><%= notice %></p>
-
-<%= render @run %>
-
-<div>
-  <%= link_to "Edit this run", edit_run_path(@run) %> |
-  <%= link_to "Back to runs", runs_path %>
-
-  <%= button_to "Destroy this run", @run, method: :delete %>
+<div class="row my-5">
+  <div class="col-md-8">
+    <%= render @run %>
+  </div>
 </div>
+
+<div class="row my-5">
+  <div class="col-md-12">
+    weight_total_of_children: <%= @run.weight_total_of_children %>
+  </div>
+</div>
+
+<hr>
+
+<% @run.run_units.order(:position).each do |run_unit| %>
+  <% if run_unit.indentation_level == 0 %>
+    <div class="row mt-5 mb-4">
+      <div class="col-md-6">
+        <h3><%= render run_unit %></h3>
+
+        <p><%= run_unit.description %></p>
+      </div>
+
+      <div class="col-md-6">
+  <% else %>
+    <%= render "indented_run_unit", run_unit: run_unit %>
+
+    <% unless run_unit.progenitor.try(:last_descendant) == run_unit %>
+      <hr>
+    <% end %>
+  <% end %>
+
+  <% if run_unit.successor.try(:indentation_level).to_i == 0 %>
+      </div>
+    </div>
+
+    <hr>
+  <% end %>
+<% end %>
