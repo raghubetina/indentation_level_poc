@@ -1,27 +1,37 @@
 <div id="<%= dom_id(run_unit) %>">
-  ID: <%= run_unit.id %>
-  |
-  Position:  <%= run_unit.position %>
-  |
-  Indentation:  <%= run_unit.indentation_level %>
-  |
-  Title: <strong><%= run_unit.title %></strong>
-  |
-  Weight: <%= run_unit.weight %>
-  |
-  Parent: <%= run_unit.parent.try(:id) %>
-  |
-  Ancestors: <%= run_unit.ancestors.map(&:id) %>
-  |
-  Progenitor: <%= run_unit.progenitor.try(:id) %>
-  |
-  Descendants: <%= run_unit.descendants.map(&:id) %>
-  |
-  Last descendant: <%= run_unit.last_descendant.try(:id) %>
-  |
-  Prior siblings: <%= run_unit.prior_siblings.map(&:id) %>
-  |
-  Last prior sibling: <%= run_unit.last_prior_sibling.try(:id) %>
+  <div class="d-flex gap-2">
+    <div class="me-auto">
+      ID: <%= run_unit.id %>
+      |
+      Position:  <%= run_unit.position %>
+      |
+      Indentation:  <%= run_unit.indentation_level %>
+      |
+      Title: <strong><%= run_unit.title %></strong>
+      |
+      Weight: <%= run_unit.weight %>
+      |
+      Parent: <%= run_unit.parent.try(:id) %>
+      |
+      Ancestors: <%= run_unit.ancestors.map(&:id) %>
+      |
+      Progenitor: <%= run_unit.progenitor.try(:id) %>
+      |
+      Descendants: <%= run_unit.descendants.map(&:id) %>
+      |
+      Last descendant: <%= run_unit.last_descendant.try(:id) %>
+      |
+      Prior siblings: <%= run_unit.prior_siblings.map(&:id) %>
+      |
+      Last prior sibling: <%= run_unit.last_prior_sibling.try(:id) %>
+    </div>
+
+    <div>
+      <span class="badge rounded-pill fw-regular text-body-secondary bg-body-tertiary border border-dark-subtle fs-6">
+        <i class="fa-solid fa-lock"></i>
+      </span>
+    </div>
+  </div>
 
   <div class="d-flex gap-2 mt-2">
     <div id="<%= dom_id(run_unit, :outdent) %>">
