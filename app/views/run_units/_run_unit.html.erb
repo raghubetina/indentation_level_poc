@@ -1,63 +1,101 @@
+<% run_unit_submission = run_unit.run_unit_submissions.find_by(user: current_user) %>
 <div id="<%= dom_id(run_unit) %>">
-  <div class="d-flex gap-2">
-    <div class="me-auto">
-      ID: <%= run_unit.id %>
-      |
-      Position:  <%= run_unit.position %>
-      |
-      Indentation:  <%= run_unit.indentation_level %>
-      |
-      Title: <strong><%= run_unit.title %></strong>
-      |
-      Weight: <%= run_unit.weight %>
-      |
-      Points: <%= number_to_percentage(run_unit.points, precision: 1) %>
-      |
-      Parent: <%= run_unit.parent.try(:id) %>
-      |
-      Ancestors: <%= run_unit.ancestors.map(&:id) %>
-      |
-      Progenitor: <%= run_unit.progenitor.try(:id) %>
-      |
-      Descendants: <%= run_unit.descendants.map(&:id) %>
-      |
-      Last descendant: <%= run_unit.last_descendant.try(:id) %>
-      |
-      Prior siblings: <%= run_unit.prior_siblings.map(&:id) %>
-      |
-      Last prior sibling: <%= run_unit.last_prior_sibling.try(:id) %>
-    </div>
+  <div class="d-flex gap-2 mb-3">
+    <h3 class="h6 me-auto">
+      <%= run_unit.title %> (<%= run_unit.id %>)
+    </h3>
 
-    <div>
-      <span class="badge rounded-pill fw-regular text-body-secondary bg-body-tertiary border border-dark-subtle fs-6">
-        <i class="fa-solid fa-lock"></i>
-      </span>
+    <div class="d-flex gap-2 mt-2">
+      <div id="<%= dom_id(run_unit, :outdent) %>">
+        <%= form_with(model: run_unit, url: outdent_run_unit_path(run_unit), method: :patch) do |f| %>
+          <%= button_tag type: "submit", disabled: !run_unit.can_outdent?, class: "btn btn-outline-#{run_unit.can_outdent? ? "primary" : "secondary"}" do %>
+            <i class="fa-solid fa-outdent"></i>
+          <% end %>
+        <% end %>
+      </div>
+
+      <div id="<%= dom_id(run_unit, :indent) %>">
+        <%= form_with(model: run_unit, url: indent_run_unit_path(run_unit), method: :patch) do |form| %>
+          <%= button_tag type: "submit", disabled: !run_unit.can_indent?, class: "btn btn-outline-#{run_unit.can_indent? ? "primary" : "secondary"}" do %>
+            <i class="fa-solid fa-indent"></i>
+          <% end %>
+        <% end %>
+      </div>
+
+      <div id="<%= dom_id(run_unit, :move_up) %>">
+        <%= form_with(model: run_unit, url: move_up_run_unit_path(run_unit), method: :patch) do |form| %>
+          <%= button_tag type: "submit", disabled: !run_unit.can_move_up?, class: "btn btn-outline-#{run_unit.can_move_up? ? "primary" : "secondary"}" do %>
+            <i class="fa-solid fa-up-long"></i>
+          <% end %>
+        <% end %>
+      </div>
     </div>
   </div>
 
-  <div class="d-flex gap-2 mt-2">
-    <div id="<%= dom_id(run_unit, :outdent) %>">
-      <%= form_with(model: run_unit, url: outdent_run_unit_path(run_unit), method: :patch) do |f| %>
-        <%= button_tag type: "submit", disabled: !run_unit.can_outdent?, class: "btn btn-outline-#{run_unit.can_outdent? ? "primary" : "secondary"}" do %>
-          <i class="fa-solid fa-outdent"></i>
-        <% end %>
-      <% end %>
-    </div>
+  <div>
+    <div class="accordion" id="<%= dom_id(run_unit, :accordion) %>">
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#<%= dom_id(run_unit, :scoring_details) %>" aria-expanded="true" aria-controls="<%= dom_id(run_unit, :scoring_details) %>">
+            Scoring-related details
+          </button>
+        </h2>
+        <div id="<%= dom_id(run_unit, :scoring_details) %>" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
+          <div class="accordion-body">
+            Weight: <%= run_unit.weight %>
+            |
+            Points: <%= number_to_percentage(run_unit.points, precision: 1) %>
+            |
+            Passing progress: <%= run_unit.passing_progress %>
+            |
+            Progress: <%= run_unit_submission.try(:progress).to_f %>
+            |
+            Passing? <%= !!run_unit_submission.try(:passing?) %>
 
-    <div id="<%= dom_id(run_unit, :indent) %>">
-      <%= form_with(model: run_unit, url: indent_run_unit_path(run_unit), method: :patch) do |form| %>
-        <%= button_tag type: "submit", disabled: !run_unit.can_indent?, class: "btn btn-outline-#{run_unit.can_indent? ? "primary" : "secondary"}" do %>
-          <i class="fa-solid fa-indent"></i>
-        <% end %>
-      <% end %>
-    </div>
-
-    <div id="<%= dom_id(run_unit, :move_up) %>">
-      <%= form_with(model: run_unit, url: move_up_run_unit_path(run_unit), method: :patch) do |form| %>
-        <%= button_tag type: "submit", disabled: !run_unit.can_move_up?, class: "btn btn-outline-#{run_unit.can_move_up? ? "primary" : "secondary"}" do %>
-          <i class="fa-solid fa-up-long"></i>
-        <% end %>
-      <% end %>
+            <% if !run_unit_submission.try(:passing?) %>
+              <span class="badge rounded-pill fw-regular text-body-secondary bg-body-tertiary border border-dark-subtle fs-6">
+                <i class="fa-solid fa-ban"></i>
+              </span>
+            <% else %>
+              <span class="badge rounded-pill fw-regular text-body-secondary bg-body-tertiary border border-dark-subtle fs-6">
+                <i class="fa-solid fa-check"></i>
+              </span>
+            <% end %>
+          </div>
+        </div>
+      </div>
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#<%= dom_id(run_unit, :position_details) %>" aria-expanded="false" aria-controls="<%= dom_id(run_unit, :position_details) %>">
+            Position-related details
+          </button>
+        </h2>
+        <div id="<%= dom_id(run_unit, :position_details) %>" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+          <div class="accordion-body">
+            ID: <%= run_unit.id %>
+            |
+            Position:  <%= run_unit.position %>
+            |
+            Indentation:  <%= run_unit.indentation_level %>
+            |
+            Title: <strong><%= run_unit.title %></strong>
+            |
+            Parent: <%= run_unit.parent.try(:id) %>
+            |
+            Ancestors: <%= run_unit.ancestors.map(&:id) %>
+            |
+            Progenitor: <%= run_unit.progenitor.try(:id) %>
+            |
+            Descendants: <%= run_unit.descendants.map(&:id) %>
+            |
+            Last descendant: <%= run_unit.last_descendant.try(:id) %>
+            |
+            Prior siblings: <%= run_unit.prior_siblings.map(&:id) %>
+            |
+            Last prior sibling: <%= run_unit.last_prior_sibling.try(:id) %>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>

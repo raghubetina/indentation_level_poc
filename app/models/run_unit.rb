@@ -5,6 +5,7 @@
 #  id                :bigint           not null, primary key
 #  description       :string
 #  indentation_level :integer          default(0)
+#  passing_progress  :float            default(1.0)
 #  position          :integer          not null
 #  title             :string
 #  weight            :integer          default(5)
@@ -24,11 +25,21 @@
 class RunUnit < ApplicationRecord
   validates :indentation_level, numericality: {greater_than_or_equal_to: 0}
 
+  after_create :create_run_unit_submissions
+
   validate :not_too_deep
 
   positioned on: :run
 
   belongs_to :run
+
+  has_many :run_unit_submissions, dependent: :destroy
+
+  def create_run_unit_submissions
+    run.users.each do |user|
+      run.run_unit_submissions.create(user:)
+    end
+  end
 
   def not_too_deep
     if position && indentation_level > predecessor.try(:indentation_level).to_i + 1

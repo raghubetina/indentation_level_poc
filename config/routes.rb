@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  resources :run_unit_submissions
+  resources :run_submissions
+  devise_for :users
   root "runs#index"
 
   resources :run_units do

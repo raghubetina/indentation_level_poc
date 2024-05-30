@@ -1,0 +1,14 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Run unit submissions</h1>
+
+<div id="run_unit_submissions">
+  <% @run_unit_submissions.each do |run_unit_submission| %>
+    <%= render run_unit_submission %>
+    <p>
+      <%= link_to "Show this run unit submission", run_unit_submission %>
+    </p>
+  <% end %>
+</div>
+
+<%= link_to "New run unit submission", new_run_unit_submission_path %>
