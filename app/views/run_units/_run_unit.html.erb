@@ -3,9 +3,11 @@
   |
   Position:  <%= run_unit.position %>
   |
-  IL:  <%= run_unit.indentation_level %>
+  Indentation:  <%= run_unit.indentation_level %>
   |
-  Title: <%= run_unit.title %>
+  Title: <strong><%= run_unit.title %></strong>
+  |
+  Weight: <%= run_unit.weight %>
   |
   Parent: <%= run_unit.parent.try(:id) %>
   |

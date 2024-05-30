@@ -7,6 +7,7 @@
 #  indentation_level :integer          default(0)
 #  position          :integer          not null
 #  title             :string
+#  weight            :integer          default(5)
 #  created_at        :datetime         not null
 #  updated_at        :datetime         not null
 #  run_id            :bigint           not null

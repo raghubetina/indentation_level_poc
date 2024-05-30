@@ -1,4 +1,7 @@
 namespace :dev do
+  desc "Destroy and reset db"
+  task reprime: ["db:drop", "db:create", "db:migrate", :prime]
+
   desc "Hydrate db with sample data"
   task prime: :environment do
     Run.destroy_all
@@ -12,7 +15,8 @@ namespace :dev do
       1.upto(100) do |i|
         run_unit = run.run_units.create(
           title: "#{i.ordinalize} unit",
-          description: Faker::Lorem.paragraphs(number: 3).join("\n\n")
+          description: Faker::Lorem.paragraphs(number: 3).join("\n\n"),
+          weight: [0, 5, 10, 15, 20, 25].sample
         )
 
         next if i == 1
