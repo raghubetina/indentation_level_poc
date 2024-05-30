@@ -154,6 +154,16 @@ class RunUnit < ApplicationRecord
   def move_down!
   end
 
+  def weight_fraction_of_parent
+    weight.to_f / run.weight_total_of_children
+  end
+
+  def weight_fraction_of_parent_percent
+    weight_fraction_of_parent * 100
+  end
+
+  alias_method :points, :weight_fraction_of_parent_percent
+
   # Pseudocode for methods we may not need, mostly just to define terminology:
 
   # def siblings

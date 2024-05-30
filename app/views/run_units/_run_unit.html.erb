@@ -11,6 +11,8 @@
       |
       Weight: <%= run_unit.weight %>
       |
+      Points: <%= run_unit.points.round(1) %>
+      |
       Parent: <%= run_unit.parent.try(:id) %>
       |
       Ancestors: <%= run_unit.ancestors.map(&:id) %>

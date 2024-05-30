@@ -4,6 +4,12 @@
   </div>
 </div>
 
+<div class="row my-5">
+  <div class="col-md-12">
+    weight_total_of_children: <%= @run.weight_total_of_children %>
+  </div>
+</div>
+
 <hr>
 
 <% @run.run_units.order(:position).each do |run_unit| %>
